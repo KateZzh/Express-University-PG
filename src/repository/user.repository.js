@@ -24,4 +24,14 @@ async function createUserDB(birth, city, age, name, surname) {
   return [{ ...data1[0], ...data2[0] }];
 }
 
-module.exports = { getAllUsersDB, createUserDB };
+async function getUserByIdDB(id) {
+  const client = await pool.connect();
+
+  // const sql = "select * from users_info where id = $1";
+  const sql = "select * from users_info join users on users.info_id = users_info.id where users.info_id = $1";
+  const data = (await client.query(sql, [id])).rows;
+
+  return data;
+}
+
+module.exports = { getAllUsersDB, createUserDB, getUserByIdDB };

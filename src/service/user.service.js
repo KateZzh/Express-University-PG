@@ -1,6 +1,7 @@
 const {
   getAllUsersDB,
   createUserDB,
+  getUserByIdDB,
 } = require("../repository/user.repository");
 
 async function getAllUsers() {
@@ -17,4 +18,11 @@ async function createUser(birth, city, age, name, surname) {
   return data;
 }
 
-module.exports = { getAllUsers, createUser };
+async function getUserById(id) {
+  const data = await getUserByIdDB(id);
+  if (!data.length) throw new Error("id not found");
+
+  return data;
+}
+
+module.exports = { getAllUsers, createUser, getUserById };
