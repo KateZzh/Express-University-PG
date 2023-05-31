@@ -5,6 +5,7 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  patchUser,
 } = require("../service/user.service");
 const { isValidUserId, isValidUserBody } = require("../helper/validation");
 
@@ -58,6 +59,18 @@ router.delete("/:id", isValidUserId, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await deleteUser(id);
+
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
+});
+
+router.patch("/:id", isValidUserId, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userData = req.body;
+    const data = await patchUser(id, userData);
 
     res.status(200).send(data);
   } catch (error) {

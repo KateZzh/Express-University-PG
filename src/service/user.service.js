@@ -4,6 +4,7 @@ const {
   getUserByIdDB,
   updateUserDB,
   deleteUserDB,
+  patchUserDB,
 } = require("../repository/user.repository");
 const ExceptionType = require("../exception/exception");
 
@@ -39,10 +40,17 @@ async function deleteUser(id) {
   return data;
 }
 
+async function patchUser(id, userData) {
+  const data = await patchUserDB(id, userData);
+
+  return data;
+}
+
 module.exports = {
   getAllUsers,
   createUser,
   getUserById,
   updateUser,
   deleteUser,
+  patchUser,
 };

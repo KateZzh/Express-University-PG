@@ -64,9 +64,26 @@ async function deleteUserDB(id) {
   const sql2 = "delete from users_info where id = $1 returning *";
   const data2 = (await client.query(sql2, [id])).rows;
 
-  console.log(data1, data2);
-
   return { ...data1[0], ...data2[0] };
+}
+
+async function patchUserDB(id, userData) {
+  const client = await pool.connect();
+
+  const sqlById = "select * from users_info join users on users_info.id = users.info_id where users_info.id = $1";
+  const dataById = (await client.query(sqlById, [id])).rows;
+
+  if (!dataById.length) throw new Error(ExceptionType.DB_USER_GET_BY_ID);
+
+  const newObj = { ...dataById[0], ...userData };
+
+  const sqlUsers_info = "update users_info set birth = $1, city = $2, age = $3 where id = $4 returning *";
+  const dataUsers_info = (await client.query(sqlUsers_info, [newObj.birth, newObj.city, newObj.age, id, ])).rows;
+
+  const sqlUsers = "update users set name = $1, surname = $2 where id = $3 returning *";
+  const dataUsers = (await client.query(sqlUsers, [newObj.name, newObj.surname, id])).rows;
+
+  return { ...dataUsers_info, ...dataUsers };
 }
 
 module.exports = {
@@ -75,4 +92,5 @@ module.exports = {
   getUserByIdDB,
   updateUserDB,
   deleteUserDB,
+  patchUserDB,
 };
