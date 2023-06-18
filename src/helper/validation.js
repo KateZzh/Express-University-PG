@@ -1,4 +1,4 @@
-const ExceptionType = require("../exception/exception");
+const ExceptionType = require('../exception/exception');
 
 function isValidUserId(req, res, next) {
   const { id } = req.params;
@@ -22,8 +22,9 @@ function isValidUserBody(req, res, next) {
   if (!isNaN(name)) throw new Error(ExceptionType.FIELD_IS_NOT_VALID);
   if (!isNaN(surname)) throw new Error(ExceptionType.FIELD_IS_NOT_VALID);
   if (isNaN(age)) throw new Error(ExceptionType.FIELD_IS_NOT_VALID);
-  if (!/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/gm.test(birth))
-    throw new Error(ExceptionType.FIELD_IS_NOT_VALID);
+  
+  // eslint-disable-next-line no-useless-escape
+  if (!/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/gm.test(birth)) throw new Error(ExceptionType.FIELD_IS_NOT_VALID);
 
   next();
 }

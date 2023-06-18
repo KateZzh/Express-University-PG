@@ -1,12 +1,5 @@
-const {
-  getAllUsersDB,
-  createUserDB,
-  getUserByIdDB,
-  updateUserDB,
-  deleteUserDB,
-  patchUserDB,
-} = require("../repository/user.repository");
-const ExceptionType = require("../exception/exception");
+const { getAllUsersDB, createUserDB, getUserByIdDB, updateUserDB, deleteUserDB, patchUserDB } = require('../repository/user.repository');
+const ExceptionType = require('../exception/exception');
 
 async function getAllUsers() {
   const data = await getAllUsersDB();
@@ -46,11 +39,4 @@ async function patchUser(id, userData) {
   return data;
 }
 
-module.exports = {
-  getAllUsers,
-  createUser,
-  getUserById,
-  updateUser,
-  deleteUser,
-  patchUser,
-};
+module.exports = { getAllUsers, createUser, getUserById, updateUser, deleteUser, patchUser };
